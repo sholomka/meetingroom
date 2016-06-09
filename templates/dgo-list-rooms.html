@@ -1,0 +1,25 @@
+<div class="table-responsive">
+    <br>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Этаж</th>
+            <th>Мест</th>
+            <th>Телефон</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="room in listRooms">
+            <td>{{room.name}}</td>
+            <td>{{room.description}}</td>
+            <td>{{room.floor}}</td>
+            <td>{{room.seats_number}}</td>
+            <td>{{room.phone}}</td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
