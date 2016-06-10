@@ -2,16 +2,35 @@ require.config({
 	paths: {
 		"domReady": 			"../lib/require/domReady",
 		"async": 				"../lib/require/async",
+
+		"moment": 				'../lib/angular-bootstrap-calendar/moment-with-locales.min',
+		"interact": 			"../lib/angular-bootstrap-calendar/interact.min",
 		"angular": 				"../lib/angular/angular.min",
+		"locale-ru": 				"../lib/angular/angular-locale_ru-ua",
+
 		"angular-route": 		"../lib/angular/angular-route.min",
 		"angular-sanitize":		"../lib/angular/angular-sanitize.min",
 		"angular-animate":		"../lib/angular/angular-animate.min",
 		"angular-touch":		"../lib/angular/angular-touch.min",
-		"ui-bootstrap": 		"../lib/angular-bootstrap/ui-bootstrap-tpls-1.3.3.min"
+		"ui-bootstrap": 		"../lib/angular-bootstrap/ui-bootstrap-tpls-1.3.3.min",
+		"mwl.calendar": 		"../lib/angular-bootstrap-calendar/angular-bootstrap-calendar-tpls.min"
 	},
 	shim: {
+		"moment": {
+			deps: []
+		},
+		"interact": {
+			deps: []
+		},
+		"mwl.calendar": {
+			deps: ["angular"]
+		},
+		
 		"angular": {
 			exports: "angular"
+		},
+		"locale-ru": {
+			deps: ["angular"]
 		},
 		"angular-route": {
 			deps: ["angular"]

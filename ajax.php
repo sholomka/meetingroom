@@ -1,9 +1,10 @@
 <?php
 include_once('config/database.php');
-include_once('objects/meetingroom.php');
+include_once('objects/room.php');
+include_once('objects/meeting.php');
 
 $params = json_decode(trim(file_get_contents('php://input')), true);
-echo (new MeetingRoom())->$params['method']();
+echo (new Meeting($params))->result;
 
 
 

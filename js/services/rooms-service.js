@@ -1,6 +1,6 @@
 define(["./module"], function (module) {
     "use strict";
-    module.factory("$listroomsService", ["$q","$rootScope", "$restService",
+    module.factory("$roomsService", ["$q","$rootScope", "$restService",
                                      function($q,$rootScope,$restService) {
 
 		var getList=function(data){
@@ -12,9 +12,20 @@ define(["./module"], function (module) {
 			});
 			return deferred.promise
 		};
+
+		 var getOne=function(data){
+			 var deferred=$q.defer();
+			 $restService.getOne(data).run().then(function(data){
+				 deferred.resolve(data);
+			 },function(error) {
+				 deferred.reject(error);
+			 });
+			 return deferred.promise
+		 };
 										 
 		return {
-			getList: getList
+			getList: getList,
+			getOne: getOne
 		}
     }]);
 });

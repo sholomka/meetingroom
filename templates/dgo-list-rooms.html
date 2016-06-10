@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive list-rooms">
     <br>
     <table class="table table-bordered table-hover">
         <thead>
@@ -13,7 +13,7 @@
         <tbody>
 
         <tr ng-repeat="room in listRooms">
-            <td>{{room.name}}</td>
+            <td><a ng-click="edit(room.id)">{{room.name}}</a></td>
             <td>{{room.description}}</td>
             <td>{{room.floor}}</td>
             <td>{{room.seats_number}}</td>

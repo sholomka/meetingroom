@@ -7,6 +7,7 @@ define([
     "./dgo-news",
     "./dgo-list-rooms",
     "./dgo-find-rooms",
+    "./dgo-edit-rooms",
     "./dgo-neue-driveby",
     "./dgo-bestehende-driveby",
     "./dgo-driveby-details",

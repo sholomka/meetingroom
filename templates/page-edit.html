@@ -1,0 +1,18 @@
+<div class="container">
+    <div class="panel panel-default">
+        <div class="modal-header">
+            <h4 class="modal-title">Интерфейс для резервирования переговорных помещений</h4>
+        </div>
+    </div>
+    <uib-tabset class="tabs">
+        <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" ng-click="tabsclick(tab.url)" ng-if="tab.show">
+            <ng-switch on="tab.url">
+                <dgo-edit-rooms ng-switch-when="dgo-edit-rooms"></dgo-edit-rooms>
+                <dgo-list-rooms ng-switch-when="dgo-list-rooms"></dgo-list-rooms>
+                <dgo-find-rooms ng-switch-when="dgo-find-rooms"></dgo-find-rooms>
+            </ng-switch>
+        </uib-tab>
+    </uib-tabset>
+</div>
+
+

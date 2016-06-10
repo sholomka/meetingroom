@@ -30,9 +30,18 @@ define(["./module"], function (module) {
 				data: data
             });
         };
+
+		var getOne = function (data) {
+			return getRequest({
+				method: "POST",
+				url: "ajax.php",
+				data: data
+			});
+		};
 		
 		return {
-			getList: getList
+			getList: getList,
+			getOne: getOne
         };
     }]);
 });
