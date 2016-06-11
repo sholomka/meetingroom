@@ -39,9 +39,36 @@ define(["./module"], function (module) {
 			});
 		};
 		
+		var reservation = function (data) {
+			return getRequest({
+				method: "POST",
+				url: "ajax.php",
+				data: data
+			});
+		};
+
+		var getEventsList = function (data) {
+			return getRequest({
+				method: "POST",
+				url: "ajax.php",
+				data: data
+			});
+		};
+
+		var getEventsTypeList = function (data) {
+			return getRequest({
+				method: "POST",
+				url: "ajax.php",
+				data: data
+			});
+		};
+		
 		return {
 			getList: getList,
-			getOne: getOne
+			getOne: getOne,
+			reservation: reservation,
+			getEventsList: getEventsList,
+			getEventsTypeList: getEventsTypeList
         };
     }]);
 });

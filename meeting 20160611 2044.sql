@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 7.0.54.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 6/10/2016 9:28:04 PM
+-- Дата скрипта: 6/11/2016 8:44:07 PM
 -- Версия сервера: 5.6.26
 -- Версия клиента: 4.1
 --
@@ -36,15 +36,15 @@ CREATE TABLE events (
   m_id INT(11) NOT NULL,
   title VARCHAR(100) NOT NULL,
   applicant VARCHAR(100) NOT NULL,
-  starts_at DATETIME NOT NULL,
-  ends_at DATETIME NOT NULL,
+  starts_at DATETIME DEFAULT NULL,
+  ends_at DATETIME DEFAULT NULL,
   type INT(11) NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT FK_events_meeting_id FOREIGN KEY (m_id)
     REFERENCES meeting(id) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 2
+AUTO_INCREMENT = 133
 AVG_ROW_LENGTH = 16384
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
@@ -56,11 +56,12 @@ DROP TABLE IF EXISTS events_type;
 CREATE TABLE events_type (
   id INT(11) NOT NULL AUTO_INCREMENT,
   title VARCHAR(100) NOT NULL,
+  type VARCHAR(100) NOT NULL,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 2
-AVG_ROW_LENGTH = 16384
+AUTO_INCREMENT = 7
+AVG_ROW_LENGTH = 2730
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -79,7 +80,7 @@ CREATE TABLE meeting (
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 4
-AVG_ROW_LENGTH = 8192
+AVG_ROW_LENGTH = 5461
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -87,13 +88,18 @@ COLLATE utf8_general_ci;
 -- Вывод данных для таблицы events
 --
 INSERT INTO events VALUES
-(1, 1, 'собрание', 'Юрий', '2016-06-10 19:39:49', '2016-06-10 19:51:51', 1);
+(132, 1, 'Ебанутое событие', 'Ебанутый Заявитель', '2016-06-11 20:41:20', '2016-06-11 20:41:20', 1);
 
 -- 
 -- Вывод данных для таблицы events_type
 --
 INSERT INTO events_type VALUES
-(1, 'info');
+(1, 'Совещание', 'important'),
+(2, 'Презентация', 'warning'),
+(3, 'Переговоры', 'info'),
+(4, 'Прочее', 'inverse'),
+(5, 'Success', 'success'),
+(6, 'Special', 'special');
 
 -- 
 -- Вывод данных для таблицы meeting

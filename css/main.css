@@ -1,3 +1,7 @@
 .list-rooms table a {
     cursor: pointer;
 }
+
+.reservation {
+    margin-left: 5px;
+}

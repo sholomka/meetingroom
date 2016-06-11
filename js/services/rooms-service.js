@@ -22,10 +22,44 @@ define(["./module"], function (module) {
 			 });
 			 return deferred.promise
 		 };
+
+		 var reservation=function(data){
+			 var deferred=$q.defer();
+			 $restService.reservation(data).run().then(function(data){
+				 deferred.resolve(data);
+			 },function(error) {
+				 deferred.reject(error);
+			 });
+			 return deferred.promise
+		 };
+
+		 var getEventsList=function(data){
+			 var deferred=$q.defer();
+			 $restService.getEventsList(data).run().then(function(data){
+				 deferred.resolve(data);
+			 },function(error) {
+				 deferred.reject(error);
+			 });
+			 return deferred.promise
+		 };
+
+		 var getEventsTypeList=function(data){
+			 var deferred=$q.defer();
+			 $restService.getEventsTypeList(data).run().then(function(data){
+				 deferred.resolve(data);
+			 },function(error) {
+				 deferred.reject(error);
+			 });
+			 return deferred.promise
+		 };									 
+										 
 										 
 		return {
 			getList: getList,
-			getOne: getOne
+			getOne: getOne,
+			reservation: reservation,
+			getEventsList: getEventsList,
+			getEventsTypeList: getEventsTypeList
 		}
     }]);
 });

@@ -91,10 +91,17 @@
         <h3 id="event-editor">
             Редактирование событий
             <button
-                    class="btn btn-primary pull-right"
-                    ng-click="vm.events.push({title: 'New event', type: 'important', draggable: true, resizable: true})">
-                Забронировать
+                    class="btn btn-success pull-right reservation"
+                    ng-click="reservation()">
+                Сохранить
             </button>
+
+            <button
+                    class="btn btn-primary pull-right"
+                    ng-click="add()">
+                Добавить новое
+            </button>
+
             <div class="clearfix"></div>
         </h3>
 
@@ -102,11 +109,12 @@
 
             <thead>
             <tr>
+                <th>Заявитель</th>
                 <th>Название</th>
                 <th>Тип встречи</th>
                 <th>Время начала</th>
                 <th>Время окончания</th>
-                <th>Отменить</th>
+                <th>Удалить</th>
             </tr>
             </thead>
 
@@ -114,19 +122,29 @@
             <tr ng-repeat="event in vm.events track by $index">
                 <td>
                     <input
+                            type="text"
+                            class="form-control"
+                            ng-model="event.applicant">
+                </td>
+                <td>
+                    <input
                         type="text"
                         class="form-control"
                         ng-model="event.title">
                 </td>
                 <td>
-                    <select ng-model="event.type" class="form-control">
+                    <select  class="form-control" ng-model="event.type"  ng-options="value for (key, value) in eventsType">
+                    </select>
+
+
+                    <!--<select ng-model="event.type" class="form-control">
                         <option value="important">Important</option>
                         <option value="warning">Warning</option>
                         <option value="info">Info</option>
                         <option value="inverse">Inverse</option>
                         <option value="success">Success</option>
                         <option value="special">Special</option>
-                    </select>
+                    </select>-->
                 </td>
                 <td>
                     <p class="input-group" style="max-width: 250px">
@@ -138,14 +156,14 @@
                                 ng-model="event.startsAt"
                                 is-open="event.startOpen"
                                 close-text="Close" >
-            <span class="input-group-btn">
-              <button
-                      type="button"
-                      class="btn btn-default"
-                      ng-click="vm.toggle($event, 'startOpen', event)">
-                <i class="glyphicon glyphicon-calendar"></i>
-              </button>
-            </span>
+                        <span class="input-group-btn">
+                          <button
+                                  type="button"
+                                  class="btn btn-default"
+                                  ng-click="vm.toggle($event, 'startOpen', event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                          </button>
+                        </span>
                     </p>
                     <uib-timepicker
                             ng-model="event.startsAt"
@@ -184,7 +202,7 @@
                     <button
                             class="btn btn-danger"
                             ng-click="vm.events.splice($index, 1)">
-                            Отменить
+                            Удалить
                     </button>
                 </td>
             </tr>

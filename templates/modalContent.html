@@ -1,13 +1,12 @@
-
 <div class="modal-header">
-    <h3 class="modal-title">Event action occurred!</h3>
+    <h3 class="modal-title">{{vm.title}}</h3>
 </div>
 <div class="modal-body">
-    <p>Action:
-    <pre>{{ vm.action }}</pre>
+    <p>
+    <pre>{{ vm.event.title }}</pre>
     </p>
-    <p>Event:
-    <pre>{{ vm.event | json }}</pre>
+    <p>
+    <pre>Заявитель: {{ vm.event.applicant }}<br>Время начала: {{  vm.event.startsAt }}<br>Время окончания: {{  vm.event.endsAt }}<br>Тип встречи: {{  vm.event.type }}</pre>
     </p>
 </div>
 <div class="modal-footer">
