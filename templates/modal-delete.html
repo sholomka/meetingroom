@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title">Удаление события</h3>
+</div>
+<div class="modal-body">
+    <p>
+    <pre>{{ vm.event.title }}</pre>
+    </p>
+    <p>
+    <pre>Заявитель: {{ vm.event.applicant }}<br>Время начала: {{  vm.event.startsAt | date:'dd-MM-yyyy HH:mm:ss' }}<br>Время окончания: {{  vm.event.endsAt | date:'dd-MM-yyyy HH:mm:ss' }}<br>Тип встречи: {{  vm.event.type }}</pre>
+    </p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-click="cancel()">Отмена</button>
+</div>

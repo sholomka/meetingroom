@@ -1,7 +1,7 @@
 define(["./module"], function (module) {
     "use strict";
-    module.directive("dgoEditRooms", ["$urlService", "$constantsService", "$filter", "$restService", "$roomsService", "$rootScope", "$alertService",
-        function ($urlService, $constantsService, $filter, $restService, $roomsService, $rootScope, $alertService) {
+    module.directive("dgoEditRooms", ["$urlService", "$filter", "$restService", "$roomsService", "$rootScope", "$alertService",
+        function ($urlService, $filter, $restService, $roomsService, $rootScope, $alertService) {
             return {
                 restrict: "E",
                 replace: true,
@@ -19,15 +19,13 @@ define(["./module"], function (module) {
                     $scope.vm = this;
                     $scope.vm.calendarView = 'month';
                     $scope.vm.viewDate = new Date();
-
-                    $roomsService.getOne({method: 'getOne', data: {id: $scope.meetingID}}).then(function(data) {
-                        $scope.listRooms = data;
-
-                        $roomsService.getEventsList({method: 'getEventsList', data: {id: $scope.meetingID}}).then(function(events) {
-
+                    
+                    $scope.getEventsList = function(sendData) {
+                        $roomsService.getPromise(sendData).then(function(events) {
                             for (var i in events) {
                                 $scope.vm.events.push({
-                                    id: $scope.meetingID,
+                                    id: events[i].id,
+                                    m_id: events[i].m_id,
                                     title: events[i].title,
                                     applicant: events[i].applicant,
                                     type: events[i].type,
@@ -40,101 +38,131 @@ define(["./module"], function (module) {
                         }, function (error) {
                             console.error(error);
                         });
+                    };
+
+                    $roomsService.getPromise({method: 'getOne', data: {id: $scope.meetingID}}).then(function(data) {
+                        $scope.listRooms = data;
+                        var sendData = {method: 'getEventsList', data: {id: $scope.meetingID}};
+                        $scope.getEventsList(sendData);
 
                     }, function (error) {
                         console.error(error);
                     });
-
                     
-                    $roomsService.getEventsTypeList({method: 'getEventsTypeList', data: {}}).then(function(eventsType) {
-                       $scope.eventsTypeMatch = eventsType;
+                    $roomsService.getPromise({method: 'getEventsTypeList', data: {}}).then(function(eventsType) {
+                        $scope.eventsTypeMatch = eventsType;
                         $scope.eventsType = Object.keys($scope.eventsTypeMatch);
-
-
-
-                        console.log($scope.eventsTypeMatch);
-                        console.log($scope.eventsType);
-                        console.log($scope.eventsType);
-
                     }, function (error) {
                         console.error(error);
                     });
-
-
+                    
                     $scope.vm.isCellOpen = true;
 
                     $scope.vm.eventClicked = function(event) {
-                        $alertService.show('Clicked', event, moment);
-                        // console.log(event);
+                        var currentModal = $alertService.show('templates/modal-content.html', event, $scope);
+
+                        $scope.ok = function() {
+                            currentModal.dismiss();
+                        }
                     };
 
                     $scope.vm.eventEdited = function(event) {
-                        $alertService.show('Edited', event);
+                        var editEvent = {};
+                        editEvent.applicant = event.applicant;
+                        editEvent.id = event.id;
+                        editEvent.title = event.title;
+                        editEvent.m_id = event.m_id;
+                        editEvent.type = event.type;
+                        editEvent.startsAt = event.startsAt;
+                        editEvent.endsAt = event.endsAt;
+
+                        var currentModal = $alertService.show('templates/modal-edit.html', editEvent, $scope);
+
+                        $scope.ok = function() {
+                            editEvent.type = $scope.eventsTypeMatch[editEvent.type];
+                            editEvent.startsAt = moment(editEvent.startsAt).add(3, 'hours').toDate();
+                            editEvent.endsAt = moment(editEvent.endsAt).add(3, 'hours').toDate();
+
+                            var sendData = {method: 'updateReservation', data: editEvent};
+
+                            $roomsService.getPromise(sendData).then(function(data) {
+                                $scope.vm.events = [];
+                                sendData = {method: 'getEventsList', data: {id: $scope.meetingID}};
+                                $scope.getEventsList(sendData);
+                                currentModal.dismiss();
+                            }, function (error) {
+                                console.error(error);
+                            });
+                        };
+
+                        $scope.cancel = function() {
+                            currentModal.dismiss();
+                        };
+
+                        $scope.toggle = function($event, field, event) {
+                            $scope.vm.toggle($event, field, event);
+                        }
                     };
 
                     $scope.vm.eventDeleted = function(event) {
+                        var currentModal = $alertService.show('templates/modal-delete.html', event, $scope);
 
+                        $scope.ok = function() {
+                            var sendData = {method: 'deleteReservation', data: {id: event.id}};
 
+                            $roomsService.getPromise(sendData).then(function(data) {
+                                $scope.vm.events = [];
+                                sendData = {method: 'getEventsList', data: {id: $scope.meetingID}};
+                                $scope.getEventsList(sendData);
+                                currentModal.dismiss();
+                            }, function (error) {
+                                console.error(error);
+                            });
+                        };
 
-
-                        $scope.vm.events.splice(event.$id, 1);
-
-
-                       
-
-                        $alertService.show('Deleted', event);
+                        $scope.cancel = function() {
+                            currentModal.dismiss();
+                        }
                     };
-
-                    $scope.vm.eventTimesChanged = function(event) {
-                        $alertService.show('Dropped or resized', event);
-                    };
-
+                    
                     $scope.vm.toggle = function($event, field, event) {
                         $event.preventDefault();
                         $event.stopPropagation();
                         event[field] = !event[field];
                     };
-
-
+                    
                     $scope.reservation = function() {
-
                         var method = 'createReservation';
-                        
-                      /*  var sendData = {
-                            method: 'createReservation',
-                            title: 'New event',
-                            type: '1',
-                            id: $scope.meetingID,
-                            startsAt:  moment().add(3, 'hours').toDate(),
-                            endsAt:  moment().add(3, 'hours').toDate()
-                        };*/
-
-
                         $scope.sendData = [];
 
                         angular.forEach($scope.vm.events, function(value, key, obj) {
                             $scope.sendData[key] = {};
                             $scope.sendData[key].type = $scope.eventsTypeMatch[obj[key].type];
-                            $scope.sendData[key].id = obj[key].id;
+                            $scope.sendData[key].m_id = obj[key].m_id;
                             $scope.sendData[key].applicant = obj[key].applicant;
                             $scope.sendData[key].title = obj[key].title;
                             $scope.sendData[key].startsAt = moment(obj[key].startsAt).add(3, 'hours').toDate();
                             $scope.sendData[key].endsAt = moment(obj[key].endsAt).add(3, 'hours').toDate();
                         });
+                        
+                        $roomsService.getPromise({method: method, data: $scope.sendData}).then(function(data) {
+                            $scope.data = data.response;
+                            var currentModal = $alertService.show('templates/modal-save.html', event, $scope);
 
-
-                        $roomsService.reservation({method: method, data: $scope.sendData}).then(function(data) {
-
+                            $scope.ok = function() {
+                                currentModal.dismiss();
+                            }
                         }, function (error) {
                             console.error(error);
                         });
                     };
                     
                     $scope.add = function() {
-                        var today = moment().toDate();
+                        var today = moment({hour: 9, minute: 0}).toDate();
+
                         $scope.vm.events.push(
                             {
-                                id: $scope.meetingID,
+                                m_id: $scope.meetingID,
                                 title: 'New event',
                                 applicant: 'Заявитель',
                                 type: 'important',
@@ -147,6 +175,5 @@ define(["./module"], function (module) {
                     };
                 }
             };
-
         }]);
 });

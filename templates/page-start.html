@@ -5,15 +5,10 @@
         </div>
     </div>
 
-    <!--<dgo-nav subpage="false" menu="true"></dgo-nav>-->
     <uib-tabset class="tabs">
         <uib-tab ng-repeat="tab in tabs" heading="{{tab.title}}" ng-if="tab.show">
             <ng-switch on="tab.url">
                 <dgo-list-rooms ng-switch-when="dgo-list-rooms"></dgo-list-rooms>
-                <dgo-find-rooms ng-switch-when="dgo-find-rooms"></dgo-find-rooms>
-
-                <!--<dgo-neue-driveby class-name="neue" ng-switch-when="dgo-neue-driveby"></dgo-neue-driveby>-->
-                <!--<dgo-bestehende-driveby ng-switch-when="dgo-bestehende-driveby"></dgo-bestehende-driveby>-->
             </ng-switch>
         </uib-tab>
     </uib-tabset>

@@ -1,7 +1,6 @@
 define(["./module"], function (module) {
     "use strict";
     module.factory("$urlService", ["$location", function ($location) {
-        
         var gotoStartPage = function () {
            $location.url("/start");
         };

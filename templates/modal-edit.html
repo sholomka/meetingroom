@@ -1,0 +1,99 @@
+<div class="modal-header">
+    <h3 class="modal-title">Редактирование события</h3>
+</div>
+<div class="modal-body">
+
+    <form class="form-horizontal" name="modalEdit" novalidate>
+        <div class="form-group">
+            <label class="col-sm-2">Заявитель</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="vm.event.applicant">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">Название</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="vm.event.title">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">Тип встречи</label>
+            <div class="col-sm-10">
+                <select  class="form-control" ng-model="vm.event.type"  ng-options="value for (key, value) in eventsType">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">Время начала</label>
+            <div class="col-sm-10">
+                <p class="input-group" style="max-width: 250px">
+                    <input
+                            type="text"
+                            class="form-control"
+                            readonly
+                            uib-datepicker-popup="dd MMMM yyyy"
+                            ng-model="vm.event.startsAt"
+                            is-open="vm.event.startOpen"
+                            close-text="Close" >
+                        <span class="input-group-btn">
+                          <button
+                                  type="button"
+                                  class="btn btn-default"
+                                  ng-click="toggle($event, 'startOpen', vm.event)">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                          </button>
+                        </span>
+                </p>
+                <uib-timepicker
+                        ng-model="vm.event.startsAt"
+                        hour-step="1"
+                        minute-step="15"
+                        min="min"
+                        max="max"
+                        show-meridian="true">
+                </uib-timepicker>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-2">Время окончания</label>
+            <div class="col-sm-10">
+                <p class="input-group" style="max-width: 250px">
+                    <input
+                            type="text"
+                            class="form-control"
+                            readonly
+                            uib-datepicker-popup="dd MMMM yyyy"
+                            ng-model="vm.event.endsAt"
+                            is-open="vm.event.endOpen"
+                            close-text="Close">
+            <span class="input-group-btn">
+              <button
+                      type="button"
+                      class="btn btn-default"
+                      ng-click="toggle($event, 'endOpen', vm.event)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+                </p>
+                <uib-timepicker
+                        ng-model="vm.event.endsAt"
+                        hour-step="1"
+                        minute-step="15"
+                        min="min"
+                        max="max"
+                        show-meridian="true">
+                </uib-timepicker>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Сохранить</button>
+    <button class="btn btn-primary" ng-click="cancel()">Отменить</button>
+</div>
+
+

@@ -1,17 +1,51 @@
 <?php
 class Meeting extends Room {
-
+    /**
+     * Имя таблицы
+     *
+     * @var string
+     */
     private $table_name = 'meeting';
-   
-    private $reserve;
-    private $id;
-    private $title;
-    private $type;
-    public $result;
 
+    /**
+     * ID переговорной комнаты
+     *
+     * @var
+     */
+    private $id;
+
+    /**
+     * Название переговорной комнаты
+     *
+     * @var
+     */
+    private $title;
+
+    /**
+     * Тип встречи
+     *
+     * @var
+     */
+    private $type;
+
+    /**
+     * Возвращаемые данные
+     * 
+     * @var
+     */
+        public $result;
+
+    /**
+     * Конструктор
+     *
+     * Meeting constructor.
+     * @param Reserve $method
+     * @param $params
+     * @param Reserve $reserve
+     */
     public function __construct($method, $params, Reserve $reserve)
     {
-        $this->reserve = $reserve;
+        parent::__construct($reserve);
         
         if ($method != 'createReservation' && !empty($params)) {
             foreach($params as $k => $param) {
@@ -22,15 +56,21 @@ class Meeting extends Room {
         $this->result = $this->{$method}($params);
     }
 
-
+    /**
+     * Гетер
+     *
+     * @param $name
+     * @return mixed
+     */
     public function __get($name) {
         return $this->$name;
     }
 
-    public function createReservation($params) {
-        return  $this->reserve->createReservation($this, $params);
-    }
-    
+    /**
+     * Реализация метода получения списка комнат
+     *
+     * @return string
+     */
     public function getList() {
         $query = "SELECT id, name, description, floor, seats_number, phone FROM {$this->table_name}";
 
@@ -43,6 +83,11 @@ class Meeting extends Room {
         return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
+    /**
+     * Реализация метода получения одной комнаты
+     *
+     * @return string
+     */
     public function getOne() {
         $query = "SELECT 
                     id, 
@@ -63,10 +108,15 @@ class Meeting extends Room {
         return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
-
+    /**
+     * Получение списка событий
+     *
+     * @return string
+     */
     public function getEventsList() {
         $query = "SELECT 
                     e.id, 
+                    e.m_id, 
                     e.title,
                     e.applicant, 
                     e.starts_at, 
@@ -86,7 +136,11 @@ class Meeting extends Room {
         return json_encode($result, JSON_UNESCAPED_UNICODE);
     }
 
-
+    /**
+     * Получение списка типов событий
+     *
+     * @return string
+     */
     public function getEventsTypeList() {
         $query = "SELECT 
                     id, 
@@ -103,22 +157,6 @@ class Meeting extends Room {
             $arr[$item['type']] = $item['id'];
         }
         
-//        echo "<pre>"; print_r($arr);
-
         return json_encode($arr, JSON_UNESCAPED_UNICODE);
     }
-
-
-    public function find() {
-        
-    }
-
-    public function createRoom() {
-
-    }
-
-    public function editRoom() {
-
-    }
-
 }

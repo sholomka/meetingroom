@@ -2,6 +2,13 @@
     cursor: pointer;
 }
 
-.reservation {
+#event-editor .reservation {
     margin-left: 5px;
+}
+
+@media (max-width: 622px) {
+    #event-editor .add {
+        clear: both;
+        margin-top: 5px;
+    }
 }

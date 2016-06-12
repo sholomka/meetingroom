@@ -80,8 +80,8 @@
                 on-edit-event-click="vm.eventEdited(calendarEvent)"
                 on-delete-event-click="vm.eventDeleted(calendarEvent)"
                 cell-is-open="vm.isCellOpen"
-                day-view-start="06:00"
-                day-view-end="22:00"
+                day-view-start="09:00"
+                day-view-end="18:00"
                 day-view-split="30"
                 cell-modifier="vm.modifyCell(calendarCell)">
         </mwl-calendar>
@@ -97,7 +97,7 @@
             </button>
 
             <button
-                    class="btn btn-primary pull-right"
+                    class="btn btn-primary pull-right add"
                     ng-click="add()">
                 Добавить новое
             </button>
@@ -135,16 +135,6 @@
                 <td>
                     <select  class="form-control" ng-model="event.type"  ng-options="value for (key, value) in eventsType">
                     </select>
-
-
-                    <!--<select ng-model="event.type" class="form-control">
-                        <option value="important">Important</option>
-                        <option value="warning">Warning</option>
-                        <option value="info">Info</option>
-                        <option value="inverse">Inverse</option>
-                        <option value="success">Success</option>
-                        <option value="special">Special</option>
-                    </select>-->
                 </td>
                 <td>
                     <p class="input-group" style="max-width: 250px">
@@ -169,6 +159,8 @@
                             ng-model="event.startsAt"
                             hour-step="1"
                             minute-step="15"
+                            min="min"
+                            max="max"
                             show-meridian="true">
                     </uib-timepicker>
                 </td>
@@ -195,6 +187,8 @@
                             ng-model="event.endsAt"
                             hour-step="1"
                             minute-step="15"
+                            min="min"
+                            max="max"
                             show-meridian="true">
                     </uib-timepicker>
                 </td>
