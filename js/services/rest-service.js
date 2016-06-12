@@ -16,22 +16,11 @@ define(["./module"], function (module) {
 						deferred.reject(response.data);
     	    		});
     				return deferred.promise;
-    			},
-    			isAllowed: function() {
-    				return $authService.isCurrentRequestAllowed(requestConfig.method,requestConfig.url);
     			}
     		}
     	};
 		
-        var getList = function (data) {
-            return getRequest({
-                method: "POST",
-                url: "ajax.php",
-				data: data
-            });
-        };
-
-		var getOne = function (data) {
+		var post = function (data) {
 			return getRequest({
 				method: "POST",
 				url: "ajax.php",
@@ -40,8 +29,7 @@ define(["./module"], function (module) {
 		};
 		
 		return {
-			getList: getList,
-			getOne: getOne
+			post:post
         };
     }]);
 });

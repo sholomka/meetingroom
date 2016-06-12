@@ -2,18 +2,19 @@ define(["./module"], function (module) {
     "use strict";
     module.factory("$alertService", ["$uibModal",
         function ($uibModal) {
-            var show = function(action, event) {
+            var show = function(url, event, $scope) {
                 return $uibModal.open({
-                    templateUrl: 'templates/modalContent.html',
-                    controller: function() {
+                    templateUrl: url,
+                    controller: function(moment) {
                         var vm = this;
-                        vm.action = action;
                         vm.event = event;
                     },
+                    backdrop: true,
+                    scope: $scope,
                     controllerAs: 'vm'
                 });
             };
-
+            
             return {
                 show: show
             };
