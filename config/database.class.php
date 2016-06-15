@@ -9,7 +9,7 @@ class Database {
     public static function getConnection(){
         if (empty(self::$connect)) {
             try {
-                self::$connect = new PDO("mysql:host=" . self::$host . ";dbname=" . self::$db_name, self::$username, self::$password);
+                self::$connect = new PDO("mysql:host=" . self::$host . ";dbname=" . self::$db_name .';charset=utf8', self::$username, self::$password);
             } catch(PDOException $exception){
                 echo "Connection error: " . $exception->getMessage();
             }

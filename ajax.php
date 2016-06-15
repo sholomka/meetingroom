@@ -1,8 +1,8 @@
 <?php
 spl_autoload_register(function ($class) {
-    $classFileName = 'classes/' . $class . '.class.php';
-    $dbFileName = 'config/' . $class . '.class.php';
-
+    $classFileName = __DIR__ . '/classes/' . $class . '.class.php';
+    $dbFileName = __DIR__ . '/config/' . $class . '.class.php';
+    
     if (file_exists($dbFileName)) {
         include $dbFileName;
     }
@@ -13,7 +13,7 @@ spl_autoload_register(function ($class) {
 });
 
 $params = json_decode(trim(file_get_contents('php://input')), true);
-echo (new Meeting($params['method'], $params['data'], new MeetingReserve()))->result;
+echo (new Meeting($params['method'], !empty($params['data']) ? $params['data'] : [], new MeetingReserve()))->result;
 
 
 
